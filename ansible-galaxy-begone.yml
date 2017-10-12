@@ -1,0 +1,51 @@
+---
+# Replace ansible-galaxy install with something simpler and more powerful
+# Note: This is ugly so it can be a single file - Don't try this at home!
+- name: Tool to fetch ansible modules and libraries based on requirements.yml
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: Read requirements.yml
+    # We can't use include_vars because requirements.yml is an array not an dict
+    set_fact:
+      requirements: "{{ lookup('file', 'requirements.yml') | from_yaml }}"
+
+  - name: Install git dependancies (modules and libraries)
+    git:
+      repo: "{{ req.src }}"
+      dest: "{{ req.dest | default(requirements_ext_roles_path) | default('ext-roles') }}/{{ req.name | default(req.src.split('/')[-1].split('.')[0]) }}"
+      version: "{{ req.version | default('master') }}"
+      force: "{{ req.remove is defined | default(omit) }}"
+      depth: 1 # shallow clone to reduce runtime
+      recursive: "{{ req.recursive is defined and req.recursive | default(omit) }}"
+    with_items: "{{ requirements }}"
+    loop_control:
+      loop_var: req
+      label: "{{ req.src | basename }}"
+    when:
+      - req.src is defined
+      - >
+        (req.scm is defined and req.scm == 'git') or
+        (req.scm is not defined and req.src.startswith('https://github.com'))
+
+  - name: Remove files from within libraries which break ansible
+    # Context: https://github.com/networktocode/ntc-ansible/issues/142
+    file:
+      name: "{{ req.0.dest }}/{{ req.0.name | default(req.0.src.split('/')[-1].split('.')[0]) }}/{{ req.1 }}"
+      state: absent
+    with_subelements:
+      - "{{ requirements }}"
+      - remove
+      - flags:
+        skip_missing: true # Oh Ansible! ... sometimes :-(
+    loop_control:
+      loop_var: req
+      label: "{{ req.0.dest }}/{{ req.0.name | default(req.0.src.split('/')[-1].split('.')[0]) }}/{{ req.1 }}"
+    when:
+      - req.0.src is defined
+      - req.1 is defined
+      - >
+        (req.0.scm is defined and req.0.scm == 'git') or
+        (req.0.scm is not defined and req.0.src.startswith('https://github.com'))
+...
