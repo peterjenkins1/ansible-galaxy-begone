@@ -2,7 +2,7 @@
 
 ## What?
 
-An opinionated Ansible role and library dependency manager backwards compatible with ansible-galaxy install.
+An opinionated Ansible role and library dependency manager backwards compatible with `ansible-galaxy install`.
 
 ### Features:
 * Install roles *and libraries* from a single tool.
