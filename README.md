@@ -50,7 +50,7 @@ Then consider you are using some Ansible modules. These aren't imported with AGI
 
 For more background see:
 * https://github.com/ansible/galaxy-issues/issues/49
-* (Installing ansible roles without ansible-galaxy)[https://medium.com/@peterjenkins/installing-ansible-roles-without-ansible-galaxy-e062d11a3ce0]
+* [Installing ansible roles without ansible-galaxy](https://medium.com/@peterjenkins/installing-ansible-roles-without-ansible-galaxy-e062d11a3ce0)
 
 ## Other details
 
