@@ -46,9 +46,11 @@ ansible-galaxy install \
   --no-deps             # Role dependancies are a mess and on by default. No versioning!  
 ```
 
-Then consider you are using some Ansible modules. These aren't imported with AGI (and you can't easily fool the tool either). Sure you can put your modules inside roles and run them 'early' in your playbooks so they are importend, but it's a messy approach (and the awesome `ansible-doc` won't find them either). Many great upstream projects like (ceph-ansible)[https://github.com/ceph/ceph-ansible/] bundle modules in git repos, but there isn't a standard structure for doing this. The result is an ugly shell script which is hard to maintain. 
+Then consider you are using some Ansible modules. These aren't imported with AGI (and you can't easily fool the tool either). Sure you can put your modules inside roles and run them 'early' in your playbooks so they are imported, but it's a messy approach (and the awesome `ansible-doc` won't find them either). Many great upstream projects like [ceph-ansible](https://github.com/ceph/ceph-ansible/) bundle modules in git repos, but there isn't a standard structure for doing this. The result is an ugly shell script which is hard to maintain. 
 
-For more background see: https://github.com/ansible/galaxy-issues/issues/49
+For more background see:
+* https://github.com/ansible/galaxy-issues/issues/49
+* (Installing ansible roles without ansible-galaxy)[https://medium.com/@peterjenkins/installing-ansible-roles-without-ansible-galaxy-e062d11a3ce0]
 
 ## Other details
 
