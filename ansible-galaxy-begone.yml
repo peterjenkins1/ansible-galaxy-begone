@@ -1,5 +1,6 @@
 ---
 # Replace ansible-galaxy install with something simpler and more powerful
+# https://github.com/peterjenkins1/ansible-galaxy-begone
 # Note: This is ugly so it can be a single file - Don't try this at home!
 - name: Tool to fetch ansible modules and libraries based on requirements.yml
   hosts: localhost
