@@ -1,7 +1,8 @@
 ---
 # Replace ansible-galaxy install with something simpler and more powerful
-# https://github.com/peterjenkins1/ansible-galaxy-begone
 # Note: This is ugly so it can be a single file - Don't try this at home!
+# The original version of this tool can be found here:
+# https://github.com/peterjenkins1/ansible-galaxy-begone
 - name: Tool to fetch ansible modules and libraries based on requirements.yml
   hosts: localhost
   connection: local
@@ -12,7 +13,7 @@
     set_fact:
       requirements: "{{ lookup('file', 'requirements.yml') | from_yaml }}"
 
-  - name: Install git dependancies (modules and libraries)
+  - name: Install git dependencies (modules and libraries)
     git:
       repo: "{{ req.src }}"
       dest: "{{ req.dest | default(requirements_ext_roles_path) | default('ext-roles') }}/{{ req.name | default(req.src.split('/')[-1].split('.')[0]) }}"
